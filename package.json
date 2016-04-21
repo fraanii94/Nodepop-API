@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "debug": "node-debug app.js"
+    "debug": "node-debug app.js",
+    "installDB": "node ./db_seed/install_db.js"
   },
   "dependencies": {
     "body-parser": "~1.13.2",

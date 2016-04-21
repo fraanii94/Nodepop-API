@@ -1,19 +1,11 @@
+"use strict";
 
-var mongoose = require('mongoose');
-var conn = mongoose.connection;
-conn.on('error', console.error.bind(console, 'mongodb connection error:'));
-conn.once('open', function() {
-    console.info('Connected to mongodb.');
-});
-mongoose.connect('mongodb://localhost:27017/nodepop');
 // Importing libraries and modules
 
 var fs = require('fs');
 var path = require('path');
-
-var Anuncio = require('../models/anuncio');
-var Usuario = require('../models/usuario');
-
+var mongoose = require('mongoose');
+var models = require('../models');
 
 // Function to read JSON files in serie
 
@@ -27,23 +19,44 @@ function serie(pathList,keys,callback){
 
     fs.readFile(pathFile,function (err,data) {
         if (err){
-            callback(err);
-            return;
+            return callback(err);
         }
         try{
             var jsonObject = JSON.parse(data);
-            callback(null,jsonObject);
-            
         }
         catch (e) {
             console.log(e);
         }
-        serie(pathList,keys,callback);
 
+        callback(null,jsonObject);
+        serie(pathList,keys,callback);
     });
 }
 
-// Call to serie function
+// ********* Create connection to database *************
+
+var conn = mongoose.connection;
+conn.on('error', console.error.bind(console, 'mongodb connection error:'));
+conn.once('open', function() {
+    console.info('Connected to mongodb.');
+});
+mongoose.connect('mongodb://localhost:27017/nodepop');
+
+// ********* Delete all existing rows *************
+
+models.Anuncio.remove({},function () {
+    console.log("Removed");
+});
+
+models.Usuario.remove({},function () {
+    console.log("Removed");
+});
+
+models.Token.remove({},function () {
+    console.log("Removed");
+});
+
+// ********* Fill database with data *************
 
 serie(['/anuncios.json','/usuarios.json'],['anuncios','usuarios'],function (err,data) {
     if (err){
@@ -57,16 +70,17 @@ serie(['/anuncios.json','/usuarios.json'],['anuncios','usuarios'],function (err,
 
         data.anuncios.forEach(function(anuncio){ // Take one and insert into database
 
-           var object = new Anuncio({"nombre":anuncio.nombre,
+            var object = new models.Anuncio({"nombre":anuncio.nombre,
                                      "venta":anuncio.venta,
                                      "precio":anuncio.precio,
                                      "foto":anuncio.foto,
                                      "tags":anuncio.tags
                                     });
+            console.log('Content of Anuncio:\n \n',object,'\n \n');
             object.save(function (err,object) {
 
                 if (err) throw err;
-                console.log('Anuncio',object.nombre,'insertado');
+                console.log(object.nombre,'inserted');
             });
         });
     // Otherwise if we read usuarios
@@ -74,24 +88,12 @@ serie(['/anuncios.json','/usuarios.json'],['anuncios','usuarios'],function (err,
 
         data.usuarios.forEach(function(usuario){ // Take one and insert into database
 
-            var object = new Usuario(usuario);
+            var object = new models.Usuario(usuario);
             object.save(function (err,object) {
 
                 if (err) throw err;
-                console.log('Usuario',object.nombre,'insertado');
+                console.log(object.nombre,'inserted');
             });
         });
-        var query = Usuario.find({});
-        query.sort('nombre');
-        return query.exec(function(err, rows) {
-            if (err) { return cb(err);}
-            return cb(null, rows); });
-
     }
-
-
 });
-
-
-
-

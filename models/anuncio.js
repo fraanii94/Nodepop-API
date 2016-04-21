@@ -12,4 +12,4 @@ var anuncioSchema = new mongoose.Schema({
     tags: [String]
 });
 
-mongoose.model('Anuncio',anuncioSchema);
+module.exports.Anuncio = mongoose.model('Anuncio',anuncioSchema);

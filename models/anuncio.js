@@ -4,7 +4,7 @@
 
 var mongoose = require('mongoose');
 
-var anuncioSchema = mongoose.Schema({
+var anuncioSchema = new mongoose.Schema({
     nombre: String,
     venta: Boolean, 
     precio: Number,

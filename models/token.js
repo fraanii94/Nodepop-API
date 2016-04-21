@@ -4,7 +4,7 @@
 
 var mongoose = require('mongoose');
 
-var pushTokenSchema = mongoose.Schema({
+var pushTokenSchema = new mongoose.Schema({
     plataforma: {
         type: String,
         enum: ['ios', 'android']

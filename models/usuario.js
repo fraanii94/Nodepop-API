@@ -4,10 +4,10 @@
 
 var mongoose = require('mongoose');
 
-var usuarioSchema = mongoose.Schema({ 
+var usuarioSchema = new mongoose.Schema({
     nombre: String,
     email: String,
     clave: String 
 });
 
-mongoose.model('Anuncio',usuarioSchema);
+mongoose.model('Usuario',usuarioSchema);

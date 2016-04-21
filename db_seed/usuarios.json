@@ -1,5 +1,6 @@
+
 {
-  "usuarios": [
+    "usuarios": [
     {
       "nombre": "Francisco",
       "email": "francisco@email.com",
@@ -8,7 +9,7 @@
     },
     {
       "nombre": "Antonio",
-      "email": "antoñito@email.com",
+      "email": "antonito@email.com",
       "clave": "claveAntonio"
     }
   ]

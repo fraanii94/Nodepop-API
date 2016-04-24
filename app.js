@@ -8,6 +8,9 @@ var mongoose = require('mongoose');
 var app = express();
 var error_handler = require('./lib/error-handler');
 
+// ********* Create connection to database *************
+require('./lib/connection');
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -21,7 +24,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/apiv1/', require('./routes/index'));
+app.use('/', require('./routes/index'));
+app.use('/apiv1/authenticate', require('./routes/authenticate'));
 app.use('/apiv1/usuarios', require('./routes/usuarios'));
 app.use('/apiv1/anuncios',require('./routes/anuncios'));
 

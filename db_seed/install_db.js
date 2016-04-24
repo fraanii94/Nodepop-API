@@ -4,9 +4,9 @@
 
 var fs = require('fs');
 var path = require('path');
-var mongoose = require('mongoose');
 var models = require('../models');
-
+var sha256 = require('sha256');
+require('../lib/connection');
 // Function to read JSON files in serie
 
 function serie(pathList,keys,callback){
@@ -32,15 +32,6 @@ function serie(pathList,keys,callback){
         serie(pathList,keys,callback);
     });
 }
-
-// ********* Create connection to database *************
-
-var conn = mongoose.connection;
-conn.on('error', console.error.bind(console, 'mongodb connection error:'));
-conn.once('open', function() {
-    console.info('Connected to mongodb.');
-});
-mongoose.connect('mongodb://localhost:27017/nodepop');
 
 // ********* Delete all existing rows *************
 
@@ -80,7 +71,7 @@ serie(['/anuncios.json','/usuarios.json'],['anuncios','usuarios'],function (err,
             object.save(function (err,object) {
 
                 if (err) throw err;
-                console.log(object.nombre,'inserted');
+                console.log(object,'inserted');
             });
         });
     // Otherwise if we read usuarios
@@ -88,11 +79,15 @@ serie(['/anuncios.json','/usuarios.json'],['anuncios','usuarios'],function (err,
 
         data.usuarios.forEach(function(usuario){ // Take one and insert into database
 
-            var object = new models.Usuario(usuario);
+            var object = new models.Usuario({
+                "nombre":usuario.nombre,
+                "email": usuario.email,
+                "clave": sha256(usuario.clave)
+            });
             object.save(function (err,object) {
 
                 if (err) throw err;
-                console.log(object.nombre,'inserted');
+                console.log(object,'inserted');
             });
         });
     }

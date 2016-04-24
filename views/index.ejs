@@ -5,19 +5,76 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
-    <h1>Welcome to Nodepop's guide</h1>
-    <ul>
-      <li>Anuncios</li>
-      <li><a href="#anuncios">GET /anuncios</a></li>
-      <li><a href="#anuncios/new">POST /anuncios/new</a></li>
-      <li><a href="#anuncios/update">PUT /anuncios/update</a></li>
-      <li><a href="#anuncios/delete">PUT /anuncios/delete</a></li>
-    </ul>
-    <ul>
-      <li>Usuarios</li>
-      <li><a href="#usuarios/new">POST /usuarios/new</a></li>
-      <li><a href="#usuarios/update">PUT /usuarios/update</a></li>
-      <li><a href="#usuarios/delete">PUT /usuarios/delete</a></li>
-    </ul>
+    <div>
+      <h1>Bienvenido a la API de Nodepop</h1>
+      <p>A continuación se muestran todas las operaciones que puedes realizar
+      a través la API. La URL para acceder es la siguiente: http://localhost:3000/apiv1
+      </p>
+    </div>
+    <div>
+      <ul>
+        <li>Anuncios</li>
+        <li><a href="#anuncios">GET /anuncios</a></li>
+        <li><a href="#anuncios/new">POST /anuncios/new</a></li>
+        <li><a href="#anuncios/update">PUT /anuncios/update</a></li>
+        <li><a href="#anuncios/delete">DELETE /anuncios/delete</a></li>
+        <li><a href="#anuncios/tags">GET /anuncios/tags</a></li>
+      </ul>
+      <ul>
+        <li>Usuarios</li>
+        <li><a href="#usuarios/new">POST /usuarios/new</a></li>
+        <li><a href="#usuarios/update">PUT /usuarios/update</a></li>
+        <li><a href="#usuarios/delete">DELETE /usuarios/delete</a></li>
+      </ul>
+      <hr>
+      <ul>
+        <li><a href="#params">Parámetros</a></li>
+      </ul>
+    </div>
+    <div id="anuncios">
+      <h3>GET /anuncios</h3>
+      <p>Devuelve la lista de anuncios en formato JSON, ordenados por fecha descendente, es decir
+      de más nuevos a más antiguos. En caso de producirse un error, se devolvería el mensaje del error
+      junto con el estado, también en formato JSON.</p>
+      <p>Se puede mandar mediante query string el parámetro <code>lang=en</code> para
+      recibir, en caso de error, el mensaje en inglés, o <code>lang=es</code> para recibirlos
+      en castellano. Si no se especifica o no existe el idioma insertado, se devolverán los mensajes
+      de error en inglés.</p>
+    </div>
+    <div id="anuncios/new">
+      <h3>POST /anuncios/new</h3>
+      <p>Devuelve la lista de anuncios en formato JSON, ordenados por fecha descendente, es decir
+        de más nuevos a más antiguos.</p>
+    </div>
+    <div id="anuncios/update">
+      <h3>PUT /anuncios/update</h3>
+      <p>Devuelve la lista de anuncios en formato JSON, ordenados por fecha descendente, es decir
+        de más nuevos a más antiguos.</p>
+    </div>
+    <div id="anuncios/delete">
+      <h3>DELETE /anuncios/delete</h3>
+      <p>Devuelve la lista de anuncios en formato JSON, ordenados por fecha descendente, es decir
+        de más nuevos a más antiguos.</p>
+    </div>
+    <div id="anuncios/tags">
+      <h3>GET /anuncios/tags</h3>
+      <p>Devuelve la lista de anuncios en formato JSON, ordenados por fecha descendente, es decir
+        de más nuevos a más antiguos.</p>
+    </div>
+    <div id="usuarios/new">
+      <h3>POST /usuarios/new</h3>
+      <p>Devuelve la lista de anuncios en formato JSON, ordenados por fecha descendente, es decir
+        de más nuevos a más antiguos.</p>
+    </div>
+    <div id="usuarios/update">
+      <h3>UPDATE /usuarios/update</h3>
+      <p>Devuelve la lista de anuncios en formato JSON, ordenados por fecha descendente, es decir
+        de más nuevos a más antiguos.</p>
+    </div>
+    <div id="usuarios/delete">
+      <h3>DELETE /usuarios/delete</h3>
+      <p>Devuelve la lista de anuncios en formato JSON, ordenados por fecha descendente, es decir
+        de más nuevos a más antiguos.</p>
+    </div>
   </body>
 </html>

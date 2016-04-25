@@ -4,7 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var mongoose = require('mongoose');
+
 var app = express();
 var error_handler = require('./lib/error-handler');
 
@@ -22,12 +22,12 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public/')));
 
 app.use('/', require('./routes/index'));
-app.use('/apiv1/authenticate', require('./routes/authenticate'));
-app.use('/apiv1/usuarios', require('./routes/usuarios'));
-app.use('/apiv1/anuncios',require('./routes/anuncios'));
+app.use('/api/v1/authenticate', require('./routes/api/v1/authenticate'));
+app.use('/api/v1/usuarios', require('./routes/api/v1/usuarios'));
+app.use('/api/v1/anuncios',require('./routes/api/v1/anuncios'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

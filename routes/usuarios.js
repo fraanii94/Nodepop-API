@@ -65,7 +65,7 @@ router.post('/new',verify,function (req,res,next) {
 // PUT updated data to an existing Usuario
 router.put('/update',verify,function (req,res,next) {
   // Search the target user
-  var query = models.Usuario.findOne(req.body._id);
+  var query = models.Usuario.findOne({_id:req.body._id});
 
   query.exec(function (err,user) {
     if(err){
@@ -101,7 +101,7 @@ router.put('/update',verify,function (req,res,next) {
 // DELETE an specific user
 router.delete('/delete/:id',verify,function (req,res,next) {
   // Remove user with specified id
-  models.Usuario.remove({_id:req.params.id}, function(err) {
+  models.Usuario.remove({_id:req.params._id}, function(err) {
     if(err){
       err.status = 500;
       return next('ERROR_BASE_DE_DATOS');
@@ -121,7 +121,7 @@ router.delete('/delete/:id',verify,function (req,res,next) {
 // GET user specified by id
 router.get('/:id',verify,function (req,res,next) {
   // Find user by id
-  var query = models.Usuario.findOne({_id: req.params.id});
+  var query = models.Usuario.findOne({_id: req.params._id});
   query.exec(function (err,user) {
     if(err){
       err.status = 500;

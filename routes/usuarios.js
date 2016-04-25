@@ -61,6 +61,7 @@ router.post('/new',verify,function (req,res,next) {
     });
   });
 });
+
 // PUT updated data to an existing Usuario
 router.put('/update',verify,function (req,res,next) {
   // Search the target user
@@ -81,7 +82,7 @@ router.put('/update',verify,function (req,res,next) {
         err.status = 500;
         return next('ERROR_BASE_DE_DATOS');
       }
-      if(ads.length === 0){
+      if(updated_user.length === 0){
         err = new Error('USUARIO_NO_ENCONTRADO');
         err.status(404);
         return next(err);
@@ -96,6 +97,7 @@ router.put('/update',verify,function (req,res,next) {
     });
   });
 });
+
 // DELETE an specific user
 router.delete('/delete/:id',verify,function (req,res,next) {
   // Remove user with specified id
@@ -104,11 +106,7 @@ router.delete('/delete/:id',verify,function (req,res,next) {
       err.status = 500;
       return next('ERROR_BASE_DE_DATOS');
     }
-    if(ads.length === 0){
-      err = new Error('USUARIO_NO_ENCONTRADO');
-      err.status(404);
-      return next(err);
-    }
+
     // Return: JSON with a status message
     res.status(200).json({
       success:{
@@ -121,7 +119,7 @@ router.delete('/delete/:id',verify,function (req,res,next) {
 });
 
 // GET user specified by id
-router.get('/:id',function (req,res,next) {
+router.get('/:id',verify,function (req,res,next) {
   // Find user by id
   var query = models.Usuario.findOne({_id: req.params.id});
   query.exec(function (err,user) {
@@ -129,7 +127,7 @@ router.get('/:id',function (req,res,next) {
       err.status = 500;
       return next('ERROR_BASE_DE_DATOS');
     }
-    if(ads.length === 0){
+    if(user.length === 0){
       err = new Error('USUARIO_NO_ENCONTRADO');
       err.status(404);
       return next(err);

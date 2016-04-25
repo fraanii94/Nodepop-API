@@ -10,4 +10,4 @@ var usuarioSchema = new mongoose.Schema({
     clave: String 
 });
 
-module.exports.Usuario = mongoose.model('Usuario',usuarioSchema);
+mongoose.model('Usuario',usuarioSchema);

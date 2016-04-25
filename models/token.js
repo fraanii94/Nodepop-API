@@ -13,4 +13,4 @@ var pushTokenSchema = new mongoose.Schema({
     usuario: String
 });
 
-module.exports.Token = mongoose.model('Token',pushTokenSchema);
+mongoose.model('Token',pushTokenSchema);

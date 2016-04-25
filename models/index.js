@@ -1,3 +1,3 @@
-module.exports.Usuario = require('./usuario').Usuario;
-module.exports.Anuncio = require('./anuncio').Anuncio;
-module.exports.Token = require('./token').Token;
+module.exports.Usuario = require('./Usuario').Usuario;
+module.exports.Anuncio = require('./Anuncio').Anuncio;
+module.exports.Token = require('./Token').Token;

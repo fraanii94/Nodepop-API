@@ -8,14 +8,15 @@
 
 var express = require('express');
 var router = express.Router();
-var models = require('../models');
+var mongoose = require('mongoose');
 var sha256 = require('sha256');
-var verify = require('../lib/jwt-verify');
+var verify = require('../../../lib/jwt-verify');
+var Usuario = mongoose.model('Usuario');
 
 // GET users filtered by Usuario attributes
 router.get('/',verify,function (req,res,next) {
 
-  var query = models.Usuario.find({});
+  var query = Usuario.find({});
 
   query.exec(function (err,users) {
     if(err){
@@ -40,7 +41,7 @@ router.post('/new',verify,function (req,res,next) {
   // Falta validación de campos requeridos
 
   // Create the user
-  var user = new models.Usuario({
+  var user = new Usuario({
     nombre: req.body.nombre,
     email: req.body.email,
     clave: sha256(req.body.clave)
@@ -65,7 +66,7 @@ router.post('/new',verify,function (req,res,next) {
 // PUT updated data to an existing Usuario
 router.put('/update',verify,function (req,res,next) {
   // Search the target user
-  var query = models.Usuario.findOne({_id:req.body._id});
+  var query = Usuario.findOne({_id:req.body._id});
 
   query.exec(function (err,user) {
     if(err){
@@ -101,7 +102,7 @@ router.put('/update',verify,function (req,res,next) {
 // DELETE an specific user
 router.delete('/delete/:id',verify,function (req,res,next) {
   // Remove user with specified id
-  models.Usuario.remove({_id:req.params._id}, function(err) {
+  Usuario.remove({_id:req.params._id}, function(err) {
     if(err){
       err.status = 500;
       return next('ERROR_BASE_DE_DATOS');
@@ -121,7 +122,7 @@ router.delete('/delete/:id',verify,function (req,res,next) {
 // GET user specified by id
 router.get('/:id',verify,function (req,res,next) {
   // Find user by id
-  var query = models.Usuario.findOne({_id: req.params._id});
+  var query = Usuario.findOne({_id: req.params._id});
   query.exec(function (err,user) {
     if(err){
       err.status = 500;

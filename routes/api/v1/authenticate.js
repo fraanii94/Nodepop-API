@@ -6,9 +6,9 @@
 var express = require('express');
 var router = express.Router();
 var jwt = require('jsonwebtoken');
-var models = require('../models');
+var models = require('../../../models/index');
 var sha256 = require('sha256');
-var config = require('../config');
+var config = require('../../../config');
 
 // Process authentication of user
 router.post('/',function (req,res,next) {

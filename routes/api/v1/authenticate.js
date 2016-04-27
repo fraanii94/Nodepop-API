@@ -1,12 +1,13 @@
 /**
  * Created by fran on 24/4/16.
  */
-
+'use strict';
 // Import needed modules
 var express = require('express');
 var router = express.Router();
 var jwt = require('jsonwebtoken');
-var models = require('../../../models/index');
+var mongoose = require('mongoose');
+var Usuario = mongoose.model('Usuario');
 var sha256 = require('sha256');
 var config = require('../../../config');
 
@@ -19,8 +20,9 @@ router.post('/',function (req,res,next) {
         clave: sha256(req.body.clave)
     };
     // Find user with this credentials
-    models.Usuario.findOne(credentials,function (err,user,count) {
+    Usuario.findOne(credentials,function (err,user) {
         if(err){
+            console.log(err);
             return next(err);
         }
         if(!user){
@@ -32,7 +34,7 @@ router.post('/',function (req,res,next) {
         var token = jwt.sign(user, config.jwt.secret, {
             expiresIn: config.jwt.expiresIn
         });
-        res.status(200).json({"jwt":token});
+        res.status(200).json({success:true,jwt:token});
     });
 });
 

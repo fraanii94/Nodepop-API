@@ -7,27 +7,51 @@
 var app = require('../app');
 var debug = require('debug')('nodepop:server');
 var http = require('http');
+var cluster = require('cluster');
 
-/**
- * Get port from environment and store in Express.
- */
 
-var port = normalizePort(process.env.PORT || '3000');
-app.set('port', port);
+if(cluster.isMaster) {
+  var numWorkers = require('os').cpus().length;
 
-/**
- * Create HTTP server.
- */
+  console.log('Master cluster setting up ' + numWorkers + ' workers...');
 
-var server = http.createServer(app);
+  for(var i = 0; i < numWorkers; i++) {
+    cluster.fork();
+  }
 
-/**
- * Listen on provided port, on all network interfaces.
- */
+  cluster.on('online', function(worker) {
+    console.log('Worker ' + worker.process.pid + ' is online');
+  });
+} else {
 
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
+  cluster.on('exit', function (worker, code, signal) {
+    console.log('Worker ' + worker.process.pid + ' died with code: ' + code + ', and signal: ' + signal);
+    console.log('Starting a new worker');
+    cluster.fork();
+  });
+
+  /**
+   * Get port from environment and store in Express.
+   */
+
+
+  var port = normalizePort(process.env.PORT || '3000');
+  app.set('port', port);
+
+  /**
+   * Create HTTP server.
+   */
+
+  var server = http.createServer(app);
+
+  /**
+   * Listen on provided port, on all network interfaces.
+   */
+
+  server.listen(port);
+  server.on('error', onError);
+  server.on('listening', onListening);
+}
 
 /**
  * Normalize a port into a number, string, or false.

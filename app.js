@@ -1,3 +1,4 @@
+
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -11,6 +12,9 @@ var error_handler = require('./lib/error-handler');
 // ********* Create connection to database *************
 require('./lib/connection');
 
+require('./models/Usuario');
+require('./models/Anuncio');
+require('./models/Token');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -28,6 +32,7 @@ app.use('/', require('./routes/index'));
 app.use('/api/v1/authenticate', require('./routes/api/v1/authenticate'));
 app.use('/api/v1/usuarios', require('./routes/api/v1/usuarios'));
 app.use('/api/v1/anuncios',require('./routes/api/v1/anuncios'));
+app.use('/api/v1/tokens',require('./routes/api/v1/tokens'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -41,10 +46,10 @@ app.use(function(req, res, next) {
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
-  app.use(function(err, req, res, next) {
+  app.use(function(err, req, res,next) {
     res.status(err.status || 500);
     var lang = req.query.lang || 'en';
-    res.json({
+    res.json({success:false,
               message: error_handler(lang,err.message),
               error: err
              });
@@ -53,11 +58,11 @@ if (app.get('env') === 'development') {
 
 // production error handler
 // no stacktraces leaked to user
-app.use(function(err, req, res, next) {
+app.use(function(err, req, res,next) {
   res.status(err.status || 500);
   var lang = req.query.lang || 'en';
   console.log(lang);
-  res.json({
+  res.json({success:false,
             message: error_handler(lang,err.message),
             error: err
           });

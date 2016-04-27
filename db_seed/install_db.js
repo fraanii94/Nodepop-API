@@ -1,10 +1,16 @@
-"use strict";
+'use strict';
 
 // Importing libraries and modules
 
 var fs = require('fs');
 var path = require('path');
-var models = require('../models');
+require('../models/Usuario');
+require('../models/Anuncio');
+require('../models/Token');
+var mongoose = require('mongoose');
+var Usuario = mongoose.model('Usuario');
+var Anuncio = mongoose.model('Anuncio');
+var Token = mongoose.model('Token');
 var sha256 = require('sha256');
 require('../lib/connection');
 // Function to read JSON files in serie
@@ -21,8 +27,10 @@ function serie(pathList,keys,callback){
         if (err){
             return callback(err);
         }
+        var jsonObject = {};
+        
         try{
-            var jsonObject = JSON.parse(data);
+            jsonObject = JSON.parse(data);
         }
         catch (e) {
             console.log(e);
@@ -35,16 +43,16 @@ function serie(pathList,keys,callback){
 
 // ********* Delete all existing rows *************
 
-models.Anuncio.remove({},function () {
-    console.log("Removed");
+Anuncio.remove({},function () {
+    console.log('Removed');
 });
 
-models.Usuario.remove({},function () {
-    console.log("Removed");
+Usuario.remove({},function () {
+    console.log('Removed');
 });
 
-models.Token.remove({},function () {
-    console.log("Removed");
+Token.remove({},function () {
+    console.log('Removed');
 });
 
 // ********* Fill database with data *************
@@ -61,11 +69,11 @@ serie(['/anuncios.json','/usuarios.json'],['anuncios','usuarios'],function (err,
 
         data.anuncios.forEach(function(anuncio){ // Take one and insert into database
 
-            var object = new models.Anuncio({"nombre":anuncio.nombre,
-                                     "venta":anuncio.venta,
-                                     "precio":anuncio.precio,
-                                     "foto":anuncio.foto,
-                                     "tags":anuncio.tags
+            var object = new Anuncio({'nombre':anuncio.nombre,
+                                     'venta':anuncio.venta,
+                                     'precio':anuncio.precio,
+                                     'foto':anuncio.foto,
+                                     'tags':anuncio.tags
                                     });
             console.log('Content of Anuncio:\n \n',object,'\n \n');
             object.save(function (err,object) {
@@ -79,15 +87,16 @@ serie(['/anuncios.json','/usuarios.json'],['anuncios','usuarios'],function (err,
 
         data.usuarios.forEach(function(usuario){ // Take one and insert into database
 
-            var object = new models.Usuario({
-                "nombre":usuario.nombre,
-                "email": usuario.email,
-                "clave": sha256(usuario.clave)
+            var object = new Usuario({
+                'nombre':usuario.nombre,
+                'email': usuario.email,
+                'clave': sha256(usuario.clave)
             });
             object.save(function (err,object) {
 
                 if (err) throw err;
                 console.log(object,'inserted');
+                
             });
         });
     }

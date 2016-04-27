@@ -1,9 +1,22 @@
 {
   "es":{
-    "Not Found": "Página no encontrada"
+    "Not Found": "Página no encontrada",
+    "UNAUTHORIZED": "No estás autorizado a acceder a esta página",
+    "ANUNCIO_NO_ENCONTRADO": "Anuncio no encontrado",
+    "USUARIO_NO_ENCONTRADO": "Usuario no encontrado",
+    "JWT_ERROR": "JSON Web Token no es válido, puede que no se haya autenticado o no lo ha enviado correctamente",
+    "ERROR_BASE_DE_DATOS": "Conexión no establecida, o error en la consulta",
+    "VALIDATION_ERROR": "Se han producido errores en la validación"
+
 
   },
   "en":{
-    "Not Found": "Page not found"
+    "Not Found": "Page not found",
+    "UNAUTHORIZED": "No estás autorizado a acceder a esta página",
+    "ANUNCIO_NO_ENCONTRADO": "Advertisement not found",
+    "USUARIO_NO_ENCONTRADO": "User not found",
+    "JWT_ERROR": "Invalid JSON Web Token, maybe you are not signed in or you have sent it wrong",
+    "ERROR_BASE_DE_DATOS": "Connection not established or there is an error in the query",
+    "VALIDATION_ERROR": "Validation errors ocurred"
   }
 }

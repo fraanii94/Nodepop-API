@@ -4,15 +4,19 @@
 
 var fs = require('fs');
 var path = require('path');
+
 require('../models/Usuario');
 require('../models/Anuncio');
 require('../models/Token');
+
 var mongoose = require('mongoose');
 var Usuario = mongoose.model('Usuario');
 var Anuncio = mongoose.model('Anuncio');
 var Token = mongoose.model('Token');
 var sha256 = require('sha256');
+
 require('../lib/connection');
+
 // Function to read JSON files in serie
 
 function serie(pathList,keys,callback){
@@ -70,11 +74,11 @@ serie(['/anuncios.json','/usuarios.json'],['anuncios','usuarios'],function (err,
         data.anuncios.forEach(function(anuncio){ // Take one and insert into database
 
             var object = new Anuncio({'nombre':anuncio.nombre,
-                                     'venta':anuncio.venta,
-                                     'precio':anuncio.precio,
-                                     'foto':anuncio.foto,
-                                     'tags':anuncio.tags
-                                    });
+                                      'venta':anuncio.venta,
+                                      'precio':anuncio.precio,
+                                      'foto':anuncio.foto,
+                                      'tags':anuncio.tags
+                                     });
             console.log('Content of Anuncio:\n \n',object,'\n \n');
             object.save(function (err,object) {
 

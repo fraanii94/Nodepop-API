@@ -42,6 +42,7 @@ usuarioSchema.statics.findCriteria = function (req,callback) {
     query.sort(sort);
     query.limit(limit);
     query.skip(start);
+    
     query.exec(function (err,anuncios) {
         console.log(err);
         if(err){

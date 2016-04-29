@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./bin/www",
-    "debug": "node-debug app.js",
+    "start": "nodemon ./bin/www_cluster",
+    "debug": "node-debug ./bin/www_single",
     "installDB": "node ./db_seed/install_db.js"
   },
   "dependencies": {
@@ -13,6 +13,7 @@
     "debug": "~2.2.0",
     "ejs": "~2.3.3",
     "express": "~4.13.1",
+    "jshint": "^2.9.2",
     "jsonwebtoken": "^5.7.0",
     "mongoose": "^4.4.12",
     "morgan": "~1.6.1",

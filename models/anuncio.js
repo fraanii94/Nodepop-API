@@ -43,9 +43,8 @@ anuncioSchema.statics.findCriteria = function (req,callback) {
     var start = parseInt(req.query.start) || 0;
     var limit = parseInt(req.query.limit) || null;
 
-
     var criteria = {};
-console.log(criteria);
+    
     if (typeof nombre !== 'undefined') {
         criteria.nombre = new RegExp('^' + nombre, 'i');
     }
@@ -55,14 +54,14 @@ console.log(criteria);
     if (typeof precio !== 'undefined') {
 
         criteria.precio = parsePrecio(precio);
-
     }
-
     if(typeof tag !== 'undefined'){
         criteria.tags = tag;
     }
 
-    var query = this.find(criteria);
+    console.log(criteria);
+
+    var query = mongoose.model('Anuncio').find(criteria);
     query.sort(sort);
     query.skip(start);
     query.limit(limit);
@@ -73,9 +72,7 @@ console.log(criteria);
             return callback(err);
         }
         callback(null,anuncios);
-
     });
-
 };
 
 // Auxiliary methods to maintain clean code,

@@ -1,5 +1,5 @@
 
-# Created by https://www.gitignore.io/api/node,osx,jetbrains
+# Created by https://www_cluster.gitignore.io/api/node,osx,jetbrains
 
 ### Node ###
 # Logs
@@ -113,5 +113,4 @@ crashlytics.properties
 crashlytics-build.properties
 fabric.properties
 
-#config files
-config.js
+

@@ -5,6 +5,7 @@ Nodepop is a *node API* that allows users to make CRUD operations over advertise
 ## How to use Nodepop
 
 * After installing Node 4.4.3 LTS, clone this repo and go inside root directory.
+* Execute `npm i`
 * Execute `npm start`
 * Open a browser and go to `http://localhost:3000`
 

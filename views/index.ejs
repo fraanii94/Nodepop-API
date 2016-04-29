@@ -8,104 +8,142 @@
     <div>
       <h1>Bienvenido a la API de Nodepop</h1>
       <p>A continuación se muestran todas las operaciones que puedes realizar
-      a través la API. La URL para acceder es la siguiente: http://localhost:3000/api/v1
+      a través la API. Todas las peticiones se realizan bajo la ruta raíz <code>http://localhost:3000/api/v1</code>
       </p>
     </div>
+    <hr>
     <div>
       <ul>
-
-        <li><a href="#baseDatos">Iniciar Base de datos</a></li>
+        <li class="section"><b>Base de datos</b></li>
+        <li><a href="#baseDatos">Rellenar base de datos con datos de prueba</a></li>
       </ul>
       <ul>
-        <li>Autenticación</li>
-        <li><a href="#autenticacion">GET /api/v1/authenticate</a></li>
+        <li class="section"><b>Autenticación</b></li>
+        <li><a href="#autenticacion">POST /authenticate</a></li>
       </ul>
       <ul>
-        <li>Anuncios</li>
-        <li><a href="#anuncios">GET /api/v1/anuncios</a></li>
-        <li><a href="#anuncios/new">POST /api/v1/anuncios/new</a></li>
-        <li><a href="#anuncios/delete">DELETE /api/v1/anuncios/delete</a></li>
-        <li><a href="#anuncios/tags">GET /api/v1/anuncios/tags</a></li>
-        <li><a href="#anuncios/:_id">GET /api/v1/anuncios/:_id</a></li>
+        <li class="section"><b>Anuncios</b></li>
+        <li><a href="#anuncios">GET /anuncios</a></li>
+        <li><a href="#anuncios/new">POST /anuncios/new</a></li>
+        <li><a href="#anuncios/delete">DELETE /anuncios/delete</a></li>
+        <li><a href="#anuncios/tags">GET /anuncios/tags</a></li>
+        <li><a href="#anuncios/:_id">GET /anuncios/:_id</a></li>
       </ul>
       <ul>
-        <li>Usuarios</li>
-        <li><a href="#usuarios">GET /api/v1/usuarios</a></li>
-        <li><a href="#usuarios/new">POST /api/v1/usuarios/new</a></li>
-        <li><a href="#usuarios/update">PUT /api/v1/usuarios/update</a></li>
-        <li><a href="#usuarios/delete">DELETE /api/v1/usuarios/delete</a></li>
-        <li><a href="#usuarios/:_id">DELETE /api/v1/usuarios/delete</a></li>
+        <li class="section"><b>Usuarios</b></li>
+        <li><a href="#usuarios">GET /usuarios</a></li>
+        <li><a href="#usuarios/new">POST /usuarios/new</a></li>
+        <li><a href="#usuarios/update">PUT /usuarios/update</a></li>
+        <li><a href="#usuarios/delete">DELETE /usuarios/delete</a></li>
+        <li><a href="#usuarios/:_id">GET /usuarios/:_id</a></li>
       </ul>
       <ul>
-        <li>Tokens</li>
-        <li><a href="#tokens/new">GET /api/v1/tokens/new</a></li>
+        <li class="section"><b>Tokens</b></li>
+        <li><a href="#tokens/new">POST /api/v1/tokens/new</a></li>
 
       </ul>
     </div>
     <div id="baseDatos">
       <h3>Iniciar base de datos</h3>
-      <p>En la raíz del proyecto, tras haber iniciado mongod, ejecutar el comando <code>npm run installBD</code>.
-      Tras esto, podremos usar <code>npm start</code> o <code>npm run start</code></p>
+      <p>Abre una ventana del terminal y ejecuta el comando <code>mongod</code> o <code>sudo mongod</code> para
+        iniciar <b>mongoDB</b>. Abre una nueva ventana del terminal, ve a la raíz del proyecto y ejecuta el comando
+        <code>npm run installBD</code>.
     </div>
     <div id="autenticacion">
-      <h3>GET /api/v1/authenticate</h3>
-      <p>Mediante JSON Web Token, se debe indicar el email del usuario y la contraseña. El API devolverá un token,
-      que deberá ser insertado en cada petición en el header mediante la cabecera x-access-token, en el query string con
-      el parámetro accessToken o en el body con el parámetro accessToken.</p>
+      <h3>POST /authenticate</h3>
+      <p>Mediante JSON Web Token, los parámetros para autenticarse son: <br>
+      <i><b>email</b></i>: "email_del_usuario" <br>
+      <i><b>clave</b></i>: "Clave_del_usuario" <br>
+      Estos parámetros deben ir en el <code>body</code> de la petición.</p>
+      <p>Se retornará como respuesta un texto JSON con el token de autenticación, que deberá ser enviado a la API,
+      para realizar otras peticiones. Este token se inserta en una cabecera <code>x-access-token</code>, en el query
+      string con la propiedad denominada <code>accessToken</code>, o en el <code>body</code> de la petición con la propiedad
+      <code>accessToken</code>.</p>
     </div>
     <div id="anuncios">
-      <h3>GET /api/v1/anuncios</h3>
-      <p>Devuelve la lista de anuncios en formato JSON, ordenados por nombre ascendente, es decir
-      de más nuevos a más antiguos. En caso de producirse un error, se devolvería el mensaje del error
-      junto con el estado, también en formato JSON.</p>
-      <p>Se puede mandar mediante query string el parámetro <code>lang=en</code> para
-      recibir, en caso de error, el mensaje en inglés, o <code>lang=es</code> para recibirlos
-      en castellano. Si no se especifica o no existe el idioma insertado, se devolverán los mensajes
-      de error en inglés.</p>
-      <p>Se pueden añadir en la query string los parámetros limit=1,start=0,sort=nombre,nombre=pepe,precio=-5,venta=true,tag=lifestyle,</p>
+      <h3>GET /anuncios</h3>
+      <p>Devuelve la lista de anuncios en formato JSON, ordenados por nombre ascendente, si no se especifica
+        otro tipo de ordenación. En caso de producirse un error, se devolvería el mensaje del error
+      junto con el código de estado, también en formato JSON.</p>
+      <p>Se pueden filtrar los anuncios utilizando estos parámetros en la query string: <br>
+      <b><i>nombre=</i></b>'nombre_del_anuncio'<br>
+      <b><i>precio=</i></b>-0 (menor que 0), 0- (mayor que 0), 0-50 (Entre 0 y 50), 0 (Igual a 0) <br>
+      <b><i>venta=</i></b>true, si queremos anuncios de 'Se vende', false, si queremos anuncios de 'Se busca' <br>
+      <b><i>tags=</i></b>'Tag_del_anuncio', para buscar por una determinada etiqueta<br>
+      Otros parámetros que se pueden añadir son limit=1,start=0,sort=nombre.</p>
+      <h4>Ejemplo:</h4>
+      <p>http://localhost:3000/api/v1/anuncios?precio=0-300&sort=nombre</p>
+      <p>Recuerda colocar el <a href="#autenticacion">token de autenticación</a></p>
     </div>
     <div id="anuncios/new">
-      <h3>POST /api/v1/anuncios/new</h3>
-      <p>Se pueden crear anuncios insertando los valroes de los campos en el <code>body</code> de la petición</p>
+      <h3>POST /anuncios/new</h3>
+      <p>Para crear un anuncio se debe añadir en el <code>body</code> de la petición los parámetros:</p>
+      <p>nombre: Nombre del anuncio; Cadena de texto</p>
+      <p>precio: Precio del anuncio; Números</p>
+      <p>venta: Formato del anuncio; True para se vende, false para se busca</p>
+      <p>foto: Imagen del anuncio; imagen.formato</p>
+      <p>tags: Etiquetas del anuncio;Cadenas de texto separadas por comas</p>
+      <p>Recuerda colocar el <a href="#autenticacion">token de autenticación</a></p>
     </div>
     <div id="anuncios/delete">
-      <h3>DELETE /api/v1/anuncios/delete</h3>
-      <p>Se pueden borrar anuncios indicando el _id en el <code>body</code> de la petición</p>
+      <h3>DELETE /anuncios/delete</h3>
+      <p>Para borrar un anuncio se debe indicar el _id del anuncio en el <code>body</code> de la petición</p>
+      <p>Recuerda colocar el <a href="#autenticacion">token de autenticación</a></p>
     </div>
     <div id="anuncios/tags">
-      <h3>GET /api/v1/anuncios/tags</h3>
+      <h3>GET /anuncios/tags</h3>
       <p>Devuelve la lista de todos los tags en formato JSON</p>
+      <p>Recuerda colocar el <a href="#autenticacion">token de autenticación</a></p>
     </div>
     <div id="anuncios/:_id">
-      <h3>GET /api/v1/anuncios/:_id</h3>
+      <h3>GET /anuncios/:_id</h3>
       <p>Devuelve el anuncio especificado por el _id en formato JSON</p>
+      <p>Recuerda colocar el <a href="#autenticacion">token de autenticación</a></p>
     </div>
     <div id="usuarios">
-      <h3>POST /api/v1/usuarios</h3>
-      <p>Al igual que anuncios, devuelve la lista de usuarios, pueden filtrarse por los campos nombre y email</p>
+      <h3>GET /usuarios</h3>
+      <p>Devuelve la lista de anuncios en formato JSON, ordenados por nombre ascendente, si no se especifica otro tipo de
+      ordenación. En caso de producirse un error, se devolvería el mensaje del error junto con el código de estado,
+      también en formato JSON.</p>
+      <p>Se pueden filtrar los usuarios utilizando estos parámetros en la query string:</p>
+      <p><b><i>nombre=</i></b>'Nombre_del_usuario'</p>
+      <p><b><i>email=</i></b>'Email_del_usuario'</p>
+      <p>Otros parámetros que se pueden añadir son limit=1,start=0,sort=nombre.</p>
+      <p>Recuerda colocar el <a href="#autenticacion">token de autenticación</a></p>
+
     </div>
     <div id="usuarios/new">
       <h3>POST /api/v1/usuarios/new</h3>
-      <p>Realiza el registro de usuario, insertando las propiedades y valores del usuario en el <code>body</code> de la
-      petición</p>
+      <p>Para hacer el registro de un usuario se debe insertar en el <code>body</code> de
+      la petición los siguientes parámetros:</p>
+      <p>nombre:Nombre del usuario; Cadena de texto</p>
+      <p>email:Email del usuario; Cadena de texto</p>
+      <p>clave:Clave del usuario; Cadena de texto</p>
+      <p>Recuerda colocar el <a href="#autenticacion">token de autenticación</a></p>
     </div>
     <div id="usuarios/update">
-      <h3>UPDATE /api/v1/usuarios/update</h3>
-      <p>Actualiza los valores de los atributos del usuario insertándolos en el <code>body</code> de la petición</p>
+      <h3>UPDATE /usuarios/update</h3>
+      <p>Para actualizar un usuario, se debe insertar en el cuerpo de la petición el _id del usuario
+      en cuestión, y además, los valores de los parámetros que hemos comentado anteriormente. Sólo se pueden modificar
+      por valores nuevos, no es posible incrementar un valor ya existente.</p>
     </div>
     <div id="usuarios/delete">
-      <h3>DELETE /api/v1/usuarios/delete</h3>
-      <p>Devuelve la lista de anuncios en formato JSON, ordenados por fecha descendente, es decir
-        de más nuevos a más antiguos.</p>
+      <h3>DELETE /usuarios/delete</h3>
+      <p>Para borrar un usuario se debe indicar el _id del anuncio en el <code>body</code> de la petición</p>
+      <p>Recuerda colocar el <a href="#autenticacion">token de autenticación</a></p>
     </div>
     <div id="usuarios/:_id">
-      <h3>DELETE /api/v1/usuarios/delete</h3>
-      <p>Devuelve el usuario especificado por el id</p>
+      <h3>GET /usuarios/:_id</h3>
+      <p>Devuelve el usuario especificado por el _id en formato JSON</p>
+      <p>Recuerda colocar el <a href="#autenticacion">token de autenticación</a></p>
     </div>
     <div id="tokens/new">
-      <h3>POST /api/v1/tokens/new</h3>
+      <h3>POST /tokens/new</h3>
       <p>Crea un token para enviar notificaciones push, recibiendo los parámetros en el <code>body</code> de la
-      petición</p>
+      petición:</p>
+      <p>plataforma: ios|android</p>
+      <p>token: token que identifica al dispositivo ;Cadena de texto</p>
+      <p>usuario: email del usuario; Cadena de texto</p>
     </div>
   </body>
 </html>

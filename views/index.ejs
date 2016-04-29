@@ -18,6 +18,10 @@
         <li><a href="#baseDatos">Rellenar base de datos con datos de prueba</a></li>
       </ul>
       <ul>
+        <li class="section"><b>Errores</b></li>
+        <li><a href="#errores">Internacionalización de erorres</a></li>
+      </ul>
+      <ul>
         <li class="section"><b>Autenticación</b></li>
         <li><a href="#autenticacion">POST /authenticate</a></li>
       </ul>
@@ -47,7 +51,13 @@
       <h3>Iniciar base de datos</h3>
       <p>Abre una ventana del terminal y ejecuta el comando <code>mongod</code> o <code>sudo mongod</code> para
         iniciar <b>mongoDB</b>. Abre una nueva ventana del terminal, ve a la raíz del proyecto y ejecuta el comando
-        <code>npm run installBD</code>.
+        <code>npm run installBD</code>.</p>
+    </div>
+    <div id="errores">
+      <h3>Internacionalización de errores</h3>
+      <p>En la query string de cada petición se puede insertar el parámetro <code>lang</code>. Si no se utiliza, los
+      errores se mostrarán en inglés, si ponemos <code>lang=es</code>, los errores se mostrarán en castellano. Si no
+      existe el lenguaje pedido, se traducirán al inglés.</p>
     </div>
     <div id="autenticacion">
       <h3>POST /authenticate</h3>

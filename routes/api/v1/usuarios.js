@@ -54,25 +54,6 @@ router.post('/new',function (req,res,next) {
   });
 });
 
-// PUT updated data to an existing Usuario
-router.put('/update',function (req,res,next) {
-  // Search the target user
-  var condition = {_id:req.body._id};
-  Usuario.findOneAndUpdate(condition,{$set:req.body},{new:true},function (err,updated_user) {
-      if(err){
-        err = new Error('ERROR_BASE_DE_DATOS');
-        err.status = 500;
-        return next(err);
-      }
-      var usuarios = [];
-      if(updated_user){
-        usuarios.push(updated_user);
-      }
-      // Return: JSON with the updated user
-      res.status(200).json({success:true, usuarios:usuarios});
-    });
-  });
-
 // DELETE an specific user
 router.delete('/delete',function (req,res,next) {
   // Remove user with specified id
